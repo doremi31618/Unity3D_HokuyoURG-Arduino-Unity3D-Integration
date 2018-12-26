@@ -161,44 +161,65 @@ namespace Uniduino.Examples
             //loop function
             while (true)
             {
-
                 if (m_Urg.urg.isConnected)
                 {
+                    int counter = 0;
                     for (int i = 0; i < LedPin.Length; i++)
                     {
-                        if (m_Urg.getDetecRegions[i])
+                        if (!m_Urg.getDetecRegions[i])
                         {
-                            Debug.Log("DetecRegions" + i + " : " + m_Urg.getDetecRegions[i]);
-                            m_Urg.getDetecRegions[i] = false;
+                            counter += 1;
+                        }
+                    }
+                    if(counter == LedPin.Length)
+                    {
+                        for (int i = 0; i < LedPin.Length; i++)
+                        {
+                            arduino.digitalWrite(LedPin[i], Arduino.HIGH);
+                            LEDTimer[i] = 0;
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < LedPin.Length; i++)
+                        {
+                            if (m_Urg.getDetecRegions[i])
+                            {
+                                Debug.Log("DetecRegions" + i + " : " + m_Urg.getDetecRegions[i]);
+                                m_Urg.getDetecRegions[i] = false;
 
-                            if (LEDTimer[i] == 0)
-                            {
-                                LEDTimer[i] = shiningTime;
-                                //turn of the Led
-                                arduino.digitalWrite(LedPin[i], Arduino.LOW);
+                                if (LEDTimer[i] == 0)
+                                {
+                                    LEDTimer[i] = shiningTime;
+                                    //turn of the Led
+                                    arduino.digitalWrite(LedPin[i], Arduino.LOW);
+                                }
+                                else if (LEDTimer[i] > 0)
+                                {
+                                    LEDTimer[i] -= loopTime;
+                                }
+                                else if (LEDTimer[i] <= 0)
+                                {
+                                    LEDTimer[i] = 0;
+                                    arduino.digitalWrite(LedPin[i], Arduino.HIGH);
+                                }
                             }
-                            else if(LEDTimer[i] > 0)
+                            else
                             {
-                                LEDTimer[i] -= loopTime;
-                            }
-                            else if (LEDTimer[i] <= 0)
-                            {
-                                LEDTimer[i] = 0;
-                                arduino.digitalWrite(LedPin[i], Arduino.HIGH);
-                            }
-
-                        }else{
-                            
-                            if(LEDTimer[i]>0)
-                            {
-                                LEDTimer[i] -= loopTime;
-                            }
-                            else if(LEDTimer[i] <= 0){
-                                LEDTimer[i] = 0;
-                                arduino.digitalWrite(LedPin[i], Arduino.HIGH);
+                                if (LEDTimer[i] > 0)
+                                {
+                                    LEDTimer[i] -= loopTime;
+                                }
+                                else if (LEDTimer[i] <= 0)
+                                {
+                                    LEDTimer[i] = 0;
+                                    arduino.digitalWrite(LedPin[i], Arduino.HIGH);
+                                }
                             }
                         }
                     }
+                    counter = 0;
+
                     yield return new WaitForSeconds(0.5f);
                 }
                 else
