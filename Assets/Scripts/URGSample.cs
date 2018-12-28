@@ -268,6 +268,7 @@ public class URGSample : MonoBehaviour
             //Vector3 dir = new Vector3(-Mathf.Cos(a), -Mathf.Sin(a), 0);
             Vector3 dir = directions[i];
             long dist = distances[i];
+
             float delta = Mathf.Abs((float)(distances[i] - distances[i - 1]));
             float delta1 = Mathf.Abs((float)(distances[i + 1] - distances[i]));
 
@@ -382,13 +383,18 @@ public class URGSample : MonoBehaviour
         {
             for (int i = 0; i < endPoints.Count; i++)
             {
-                if (detectAreaRect.x < endPoints[i].x &&
-                   endPoints[i].x < detectAreaRect.x + detectAreaRect.width &&
-                   detectAreaRect.y < endPoints[i].y &&
-                   endPoints[i].y < detectAreaRect.y + detectAreaRect.height)
+                if (detectAreaRect.x < endPoints[i].x && endPoints[i].x < detectAreaRect.x + detectAreaRect.width)
                 {
                     int num = SingleDtectRect(endPoints[i].x, detectAreaRect.x);
-                    DetecRegions[num-1] = true;
+
+                    if (detectAreaRect.y < endPoints[i].y && endPoints[i].y < detectAreaRect.y + detectAreaRect.height)
+                    {
+                        DetecRegions[num - 1] = true;
+                    }
+                    else
+                    {
+                        DetecRegions[num - 1] = false;
+                    }
                 }
             }
         }
@@ -396,19 +402,9 @@ public class URGSample : MonoBehaviour
     }
 
 
-    void RangeOfDetectArea()
-    {
-
-    }
-
     int SingleDtectRect(float pointX, float rectX)
     {
         return (int)Mathf.Ceil((pointX - rectX) / singleLenth);
-    }
-
-    void DrawDetecLine()
-    {
-
     }
 
     void DrawRect(Rect rect, Color color)

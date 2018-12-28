@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Uniduino;
 using Uniduino.Helpers;
+using UnityEngine.UI;
 
 #if (UNITY_3_0 || UNITY_3_0_0 || UNITY_3_1 || UNITY_3_2 || UNITY_3_3 || UNITY_3_4 || UNITY_3_5)        
 public class UniduinoTestPanel : Uniduino.Examples.UniduinoTestPanel { }
@@ -143,93 +144,89 @@ namespace Uniduino.Examples
             }
 
         }
+        public Text infoText;
         public URGSample m_Urg;   
         //arduino function
         public IEnumerator URGControl()
         {
-            Debug.Log("Configure Pins");
-            //arduino.Baud = Baud;
-            float[] LEDTimer = new float[m_Urg.getDetecRegions.Length];
 
-            for (int i = 0; i < LedPin.Length; i++)
+            //arduino.Baud = Baud;
+            int arduinoState1 = 0;
+            int arduinoState2 = 0;
+            arduinoState1 = Arduino.LOW;
+            arduinoState2 = Arduino.HIGH;
+
+            float[] LEDTimer = new float[m_Urg.getDetecRegions.Length];
+            Debug.Log("getDetecRegion : " + m_Urg.getDetecRegions.Length);
+            for (int i = 0; i < LedPin.Length; i++) 
             {
+                
                 arduino.pinMode(LedPin[i], PinMode.OUTPUT);
-                arduino.digitalWrite(LedPin[i], Arduino.HIGH);
+                arduino.digitalWrite(LedPin[i], (arduinoState2));
+
                 LEDTimer[i] = 0;
             }
-
+           
             //loop function
             while (true)
             {
                 if (m_Urg.urg.isConnected)
                 {
-                    int counter = 0;
-                    for (int i = 0; i < LedPin.Length; i++)
-                    {
-                        if (!m_Urg.getDetecRegions[i])
-                        {
-                            counter += 1;
-                        }
-                    }
-                    if(counter == LedPin.Length)
+                    infoText.text = "";
+
+                    if(isDetectNothing())
                     {
                         for (int i = 0; i < LedPin.Length; i++)
                         {
-                            arduino.digitalWrite(LedPin[i], Arduino.HIGH);
+                            arduino.digitalWrite(LedPin[i],(arduinoState1));
                             LEDTimer[i] = 0;
                         }
+                        infoText.text += "detect nothing";
+                        //Debug.Log("detect nothing");
                     }
                     else
                     {
-                        for (int i = 0; i < LedPin.Length; i++)
+                        for (int i = 0; i < m_Urg.getDetecRegions.Length; i++)
                         {
-                            if (m_Urg.getDetecRegions[i])
-                            {
-                                Debug.Log("DetecRegions" + i + " : " + m_Urg.getDetecRegions[i]);
-                                m_Urg.getDetecRegions[i] = false;
+                            var state = arduino.digitalRead(LedPin[i]);
 
-                                if (LEDTimer[i] == 0)
-                                {
-                                    LEDTimer[i] = shiningTime;
-                                    //turn of the Led
-                                    arduino.digitalWrite(LedPin[i], Arduino.LOW);
-                                }
-                                else if (LEDTimer[i] > 0)
-                                {
-                                    LEDTimer[i] -= loopTime;
-                                }
-                                else if (LEDTimer[i] <= 0)
-                                {
-                                    LEDTimer[i] = 0;
-                                    arduino.digitalWrite(LedPin[i], Arduino.HIGH);
-                                }
-                            }
-                            else
+                            if (m_Urg.getDetecRegions[i] && state != arduinoState2)
                             {
-                                if (LEDTimer[i] > 0)
-                                {
-                                    LEDTimer[i] -= loopTime;
-                                }
-                                else if (LEDTimer[i] <= 0)
-                                {
-                                    LEDTimer[i] = 0;
-                                    arduino.digitalWrite(LedPin[i], Arduino.HIGH);
-                                }
+                                state = arduinoState2;
                             }
+                            else if(!m_Urg.getDetecRegions[i] && state == arduinoState2)
+                            {
+                                state = arduinoState1;
+                            }
+                            arduino.digitalWrite(LedPin[i], state);
+                            infoText.text +="DetectRegion : " + m_Urg.getDetecRegions[i] + " LedPin : " + LedPin[i] + " state : " + state + "\n"; 
                         }
                     }
-                    counter = 0;
 
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.3f);
                 }
                 else
                 {
-                    Debug.Log("not connect");
+                    Debug.LogError("HOKUYO not connect");
                     yield return new WaitForSeconds(3f);
                 }
 
             }
 
+        }
+        bool isDetectNothing()
+        {
+            int counter = 0;
+
+            for (int i = 0; i < LedPin.Length; i++)
+            {
+                if (!m_Urg.getDetecRegions[i])
+                {
+                    counter += 1;
+                }
+            }
+            bool result = (counter == LedPin.Length);
+            return result;
         }
 
         int CalculateNextTwoLedPin(int LED1, int LED2,int LastLED2,int count)
@@ -533,14 +530,7 @@ namespace Uniduino.Examples
                 Debug.Log("OnDestroy called");
             }
         
-            void Update () 
-            {
-                if (arduino != null)
-                {
-        
-                }
             
-            }
             
         }
     }
