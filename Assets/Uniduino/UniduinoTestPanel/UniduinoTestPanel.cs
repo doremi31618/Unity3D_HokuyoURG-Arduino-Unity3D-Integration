@@ -153,8 +153,8 @@ namespace Uniduino.Examples
             //arduino.Baud = Baud;
             int arduinoState1 = 0;
             int arduinoState2 = 0;
-            arduinoState1 = Arduino.LOW;
-            arduinoState2 = Arduino.HIGH;
+            arduinoState1 = Arduino.HIGH;
+            arduinoState2 = Arduino.LOW;
 
             float[] LEDTimer = new float[m_Urg.getDetecRegions.Length];
             Debug.Log("getDetecRegion : " + m_Urg.getDetecRegions.Length);
