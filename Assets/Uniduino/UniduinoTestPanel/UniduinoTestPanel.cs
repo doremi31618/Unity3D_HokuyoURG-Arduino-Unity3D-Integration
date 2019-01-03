@@ -23,6 +23,7 @@ namespace Uniduino.Examples
         public GUISkin skin;
         public Arduino arduino;
         private float _loopTime = 1;
+
         public float loopTime
         {
             get
@@ -153,6 +154,7 @@ namespace Uniduino.Examples
             //arduino.Baud = Baud;
             int arduinoState1 = 0;
             int arduinoState2 = 0;
+
             arduinoState1 = Arduino.HIGH;
             arduinoState2 = Arduino.LOW;
 
@@ -189,7 +191,7 @@ namespace Uniduino.Examples
                         for (int i = 0; i < m_Urg.getDetecRegions.Length; i++)
                         {
                             var state = arduino.digitalRead(LedPin[i]);
-
+                            //infoText.text +="DetectRegion : " + m_Urg.getDetecRegions[i] + " LedPin : " + LedPin[i] + " state : " + state + "\n"; 
                             if (m_Urg.getDetecRegions[i] && state != arduinoState2)
                             {
                                 state = arduinoState2;
@@ -199,7 +201,7 @@ namespace Uniduino.Examples
                                 state = arduinoState1;
                             }
                             arduino.digitalWrite(LedPin[i], state);
-                            infoText.text +="DetectRegion : " + m_Urg.getDetecRegions[i] + " LedPin : " + LedPin[i] + " state : " + state + "\n"; 
+                            infoText.text += "DetectRegion : " + m_Urg.getDetecRegions[i] + " LedPin : " + LedPin[i] + " state : " + state + "\n"; 
                         }
                     }
 

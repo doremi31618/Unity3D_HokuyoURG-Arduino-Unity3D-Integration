@@ -5,6 +5,7 @@ using System.Collections.Generic;
 // http://sourceforge.net/p/urgnetwork/wiki/top_jp/
 // https://www.hokuyo-aut.co.jp/02sensor/07scanner/download/pdf/URG_SCIP20.pdf
 using System.Reflection.Emit;
+using UnityEngine.UI;
 public class URGSample : MonoBehaviour
 {
 
@@ -35,8 +36,8 @@ public class URGSample : MonoBehaviour
 
     public UrgDeviceEthernet urg;
     public float scale = 0.1f;
-    public float limit = 300.0f;//mm
-    public int noiseLimit = 5;
+    public float limit = 100000.0f;//mm
+    public int noiseLimit = 20;
 
     public Color distanceColor = Color.white;
     //	public Color detectColor = Color.white;
@@ -72,7 +73,8 @@ public class URGSample : MonoBehaviour
             return _detectAreaRect;
         }
     }
-
+    public int threshold = 50;
+    private int[] regionPointCount;
     // Use this for initialization
     void Start()
     {
@@ -82,14 +84,19 @@ public class URGSample : MonoBehaviour
         urg = this.gameObject.AddComponent<UrgDeviceEthernet>();
         urg.StartTCP(ip_address, port_number);
 
-
         if (ifDetectCollision)
         {
             DetecRegions = new bool[detectRegionNumber];
+            regionPointCount = new int[detectRegionNumber];
+            for (int i = 0; i < DetecRegions.Length; i++)
+            {
+                DetecRegions[i] = false;
+                regionPointCount[i] = 0;
+            }
         }
 
     }
-
+    public Text text;
 
     // Update is called once per frame
     void Update()
@@ -103,13 +110,23 @@ public class URGSample : MonoBehaviour
         // center offset rect
         Rect detectAreaRect = areaRect;
         detectAreaRect.x *= scale;
+        var x = detectAreaRect.x;
         detectAreaRect.y *= scale;
         detectAreaRect.width *= scale;
         detectAreaRect.height *= scale;
 
-        detectAreaRect.x = -detectAreaRect.width / 2;
+        detectAreaRect.x = -detectAreaRect.width / 2 + x;
         //
         singleLenth = (int)Mathf.Ceil(detectAreaRect.width / detectRegionNumber);
+
+        if (ifDetectCollision)
+        {
+            for (int i = 0; i < DetecRegions.Length; i++)
+            {
+                regionPointCount[i] = 0;
+                DetecRegions[i] = false;
+            }
+        }
 
         float d = Mathf.PI * 2 / 1440;
         float offset = d * 540;
@@ -120,6 +137,7 @@ public class URGSample : MonoBehaviour
             if (!cached)
             {
                 directions = new Vector3[urg.distances.Count];
+                Debug.Log("urg.distances.Count" + urg.distances.Count);
                 for (int i = 0; i < directions.Length; i++)
                 {
                     float a = d * i + offset;
@@ -172,13 +190,8 @@ public class URGSample : MonoBehaviour
             //			float colorD = 1.0f / 1440;
             for (int i = 0; i < distances.Count; i++)
             {
-                //float a = d * i + offset;
-                //Vector3 dir = new Vector3(-Mathf.Cos(a), -Mathf.Sin(a), 0);
                 Vector3 dir = directions[i];
                 long dist = distances[i];
-                //color = (dist < limit && dir.y > 0) ? detectColor : new Color(colorD * i, 0,0,1.0f);
-                //Color color = (dist < limit && dir.y > 0) ? detectColor : distanceColor;
-                //Debug.DrawRay(Vector3.zero, dist * dir * scale, color);
                 Vector3 endPoint = dist * dir * scale;
                 Debug.DrawRay(Vector3.zero, endPoint, distanceColor);
                 endPoints.Add(endPoint);
@@ -257,11 +270,11 @@ public class URGSample : MonoBehaviour
         //				}
         //			}
         //		}
-
+        /*
 
         //------
         bool endGroup = true;
-        float deltaLimit = 100; // 認識の閾値　連続したもののみを取得するため (mm)
+        float deltaLimit = 100000.0f; // 認識の閾値　連続したもののみを取得するため (mm)
         for (int i = 1; i < distances.Count - 1; i++)
         {
             //float a = d * i + offset;
@@ -307,6 +320,8 @@ public class URGSample : MonoBehaviour
                 }
             }
         }
+        */
+        /*
         #region draw
         //-----------------
         // draw 
@@ -379,26 +394,34 @@ public class URGSample : MonoBehaviour
             drawCount++;
         }
         #endregion
+*/
         if (ifDetectCollision)
         {
+            text.text = "";
             for (int i = 0; i < endPoints.Count; i++)
             {
-                if (detectAreaRect.x < endPoints[i].x && endPoints[i].x < detectAreaRect.x + detectAreaRect.width)
+                if (detectAreaRect.Contains(endPoints[i]))
                 {
-                    int num = SingleDtectRect(endPoints[i].x, detectAreaRect.x);
-
-                    if (detectAreaRect.y < endPoints[i].y && endPoints[i].y < detectAreaRect.y + detectAreaRect.height)
-                    {
-                        DetecRegions[num - 1] = true;
-                    }
-                    else
-                    {
-                        DetecRegions[num - 1] = false;
-                    }
+                    int num = SingleDtectRect(endPoints[i].x, detectAreaRect.xMin);
+                    regionPointCount[num - 1] += 1;
+                    Debug.DrawRay(Vector3.zero,endPoints[i], Color.yellow);
                 }
+            }
+
+            for (int i = 0; i < DetecRegions.Length;i++)
+            {
+                if(regionPointCount[i] > threshold)
+                {
+                    DetecRegions[i] = true;
+                }
+                else{
+                    DetecRegions[i] = false;
+                }
+                text.text += "Region " + (i) + " : " + DetecRegions[i] + "\n";
             }
         }
         DrawRect(detectAreaRect, Color.green);
+        endPoints.Clear();
     }
 
 
@@ -436,31 +459,32 @@ public class URGSample : MonoBehaviour
         GUILayout.BeginArea(new Rect(760, 100, 300, 300));
         {
 
-            // https://sourceforge.net/p/urgnetwork/wiki/scip_jp/
+            //// https://sourceforge.net/p/urgnetwork/wiki/scip_jp/
             if (GUILayout.Button("VV: (バージョン情報の取得)"))
             {
                 urg.Write(SCIP_library.SCIP_Writer.VV());
             }
-            //		if(GUILayout.Button("SCIP2")){
-            //			urg.Write(SCIP_library.SCIP_Writer.SCIP2());
-            //		}
+            //if(GUILayout.Button("SCIP2"))
+            //{
+            //    urg.Write(SCIP_library.SCIP_Writer.SCIP2());
+            //}
             if (GUILayout.Button("PP: (パラメータ情報の取得)"))
             {
                 urg.Write(SCIP_library.SCIP_Writer.PP());
             }
-            if (GUILayout.Button("MD: (計測＆送信要求)"))
+            if (GUILayout.Button("MD: 測量和傳輸請求"))
             {
                 urg.Write(SCIP_library.SCIP_Writer.MD(0, 1080, 1, 0, 0));
             }
-            if (GUILayout.Button("ME: (計測＆距離データ・受光強度値送信要求)"))
+            if (GUILayout.Button("ME: 測量和距離數據·接收強度值傳輸請求"))
             {
                 urg.Write(SCIP_library.SCIP_Writer.ME(0, 1080, 1, 1, 0));
             }
-            if (GUILayout.Button("BM: (レーザの発光)"))
+            if (GUILayout.Button("BM: 激光發射"))
             {
                 urg.Write(SCIP_library.SCIP_Writer.BM());
             }
-            if (GUILayout.Button("GD: (計測済み距離データ送信要求)"))
+            if (GUILayout.Button("GD: 測量距離數據傳輸請求"))
             {
                 urg.Write(SCIP_library.SCIP_Writer.GD(0, 1080));
             }
