@@ -6,6 +6,7 @@ using System.Collections.Generic;
 // https://www.hokuyo-aut.co.jp/02sensor/07scanner/download/pdf/URG_SCIP20.pdf
 using System.Reflection.Emit;
 using UnityEngine.UI;
+using System.Runtime.InteropServices;
 public class URGSample : MonoBehaviour
 {
 
@@ -74,6 +75,7 @@ public class URGSample : MonoBehaviour
         }
     }
     public int threshold = 50;
+    [Range(0,1)]public float percentageDynamicThreshold = 0.6f;
     private int[] regionPointCount;
     // Use this for initialization
     void Start()
@@ -201,6 +203,7 @@ public class URGSample : MonoBehaviour
         //-----------------
         //  group
         detectObjects = new List<DetectObject>();
+#region not use
         //
         //------
         //		bool endGroup = true;
@@ -393,11 +396,16 @@ public class URGSample : MonoBehaviour
 
             drawCount++;
         }
-        #endregion
+
 */
+        #endregion
         if (ifDetectCollision)
         {
             text.text = "";
+            int lastVal;
+            int maxVal = 0;
+            int minVal = threshold;
+
             for (int i = 0; i < endPoints.Count; i++)
             {
                 if (detectAreaRect.Contains(endPoints[i]))
@@ -407,11 +415,31 @@ public class URGSample : MonoBehaviour
                     Debug.DrawRay(Vector3.zero,endPoints[i], Color.yellow);
                 }
             }
-
+            text.text += "DetecRegions.Length : " + DetecRegions.Length +"\n";
+            text.text += "detectAreaRect.xMin : " + detectAreaRect.xMin + "\n";
             for (int i = 0; i < DetecRegions.Length;i++)
             {
                 if(regionPointCount[i] > threshold)
                 {
+                    lastVal = regionPointCount[i];
+                    if(lastVal > maxVal)
+                    {
+                        maxVal = lastVal;
+                    }
+                    regionPointCount[i] -= minVal;
+                    //DetecRegions[i] = true;
+                }
+                else{
+                    regionPointCount[i] = 0;
+                    //DetecRegions[i] = false;
+                }
+
+            }
+            threshold = (int)Mathf.Floor((maxVal - minVal) * percentageDynamicThreshold);
+            for (int i = 0; i < DetecRegions.Length; i++)
+            {
+                if (regionPointCount[i] > threshold)
+                { 
                     DetecRegions[i] = true;
                 }
                 else{
@@ -436,6 +464,7 @@ public class URGSample : MonoBehaviour
         Vector3 p1 = new Vector3(rect.x + rect.width, rect.y, 0);
         Vector3 p2 = new Vector3(rect.x + rect.width, rect.y + rect.height, 0);
         Vector3 p3 = new Vector3(rect.x, rect.y + rect.height, 0);
+
         Debug.DrawLine(p0, p1, color);
         Debug.DrawLine(p1, p2, color);
         Debug.DrawLine(p2, p3, color);
@@ -445,7 +474,7 @@ public class URGSample : MonoBehaviour
     private bool gd_loop = false;
 
     // PP
-    //	MODL ... センサ型式情報
+    //	MODL ... 傳感器型號信息
     //	DMIN ... 最小計測可能距離 (mm)
     //	DMAX ... 最大計測可能距離 (mm)
     //	ARES ... 角度分解能(360度の分割数)
@@ -460,15 +489,11 @@ public class URGSample : MonoBehaviour
         {
 
             //// https://sourceforge.net/p/urgnetwork/wiki/scip_jp/
-            if (GUILayout.Button("VV: (バージョン情報の取得)"))
+            if (GUILayout.Button("VV: (獲取版本信息)"))
             {
                 urg.Write(SCIP_library.SCIP_Writer.VV());
             }
-            //if(GUILayout.Button("SCIP2"))
-            //{
-            //    urg.Write(SCIP_library.SCIP_Writer.SCIP2());
-            //}
-            if (GUILayout.Button("PP: (パラメータ情報の取得)"))
+            if (GUILayout.Button("PP: (獲取參數信息)"))
             {
                 urg.Write(SCIP_library.SCIP_Writer.PP());
             }
@@ -499,59 +524,7 @@ public class URGSample : MonoBehaviour
 
             GUILayout.Label("distances.Count: " + distances.Count + " / strengths.Count: " + strengths.Count);
             GUILayout.Label("drawCount: " + drawCount + " / detectObjects: " + detectObjects.Count);
-            #region GUI_layout
-            //GUILayout.BeginArea(new Rect(Screen.width / 2, Screen.height/2, 500, 500));                
-            //{
 
-            //GUILayout.BeginVertical();
-            //{
-            //    GUILayout.BeginHorizontal();
-            //    {
-            //    for (int i = 0; i < detectRegionNumber; i++)
-            //    {
-            //        if (GUILayout.Button("Region" + (i+1)))
-            //        {
-
-            //        }
-            //    }    
-            //            if (GUILayout.Button("Disconnect"))
-            //            {
-
-            //            }    
-            //            if (GUILayout.Button("Relay Animation"))
-            //            {
-            //            }
-
-            //            GUILayout.FlexibleSpace();
-
-            //            GUILayout.Label("Serial port:");
-            //            if (GUILayout.Button("Guess"))
-            //            {
-            //            }                
-
-            //        }
-            //        GUILayout.EndHorizontal();
-
-            //        GUILayout.BeginHorizontal();
-            //        {
-
-
-            //            GUILayout.FlexibleSpace();
-            //            if (GUILayout.Button("Query capabilities"))
-            //            {
-
-            //            }
-            //        }
-            //        GUILayout.EndHorizontal();
-
-            //        GUILayout.Space(20);
-
-
-            //    }
-            //    GUILayout.EndVertical();
-            //}
-            //GUILayout.EndArea();
-            #endregion
         }
         GUILayout.EndArea();
 

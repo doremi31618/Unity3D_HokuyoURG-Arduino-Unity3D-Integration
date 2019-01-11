@@ -642,6 +642,16 @@ Prefab:
       propertyPath: text
       value: 
       objectReference: {fileID: 1751870989}
+    - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
+        type: 2}
+      propertyPath: threshold
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
+        type: 2}
+      propertyPath: scale
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbe76c65e141a4108be49a35f16addda, type: 2}
   m_IsPrefabAsset: 0
