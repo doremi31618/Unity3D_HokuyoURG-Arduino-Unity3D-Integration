@@ -36,6 +36,21 @@ namespace Uniduino.Examples
             }
         }
         public float shiningTime = 0.5f;
+
+        [Header("AnimationSystem")]
+        [Header("state setting")]
+        public int frameRate = 5;
+        public bool isLoop = true;
+        public bool isUseGlobalAntiLogic = false;
+
+        [Header("Animation clip setting")]
+        public List<AnimationModel> animationClips;
+
+        [Header("Simulation GameObject")]
+        public List<GameObject> Light;
+        private bool[] LightStates;
+
+        public AnimationType nowPlaying;
             
         void Start () {        
             
@@ -155,11 +170,18 @@ namespace Uniduino.Examples
             int arduinoState1 = 0;
             int arduinoState2 = 0;
 
-            arduinoState1 = Arduino.HIGH;
-            arduinoState2 = Arduino.LOW;
+            //arduinoState1 default value equal to high
+            //arduinoState2 default value equal to low
+            arduinoState1 = LogicStateSetting.State1 ^ isUseGlobalAntiLogic ? Arduino.HIGH : Arduino.LOW;
+            arduinoState2 = LogicStateSetting.State2 ^ isUseGlobalAntiLogic ? Arduino.LOW : Arduino.HIGH;
+
+            //light animation attribute initialize
+            int playingIndex = 0;
+            nowPlaying = animationClips[playingIndex].type;
+            LightStates = new bool[Light.Count];
 
             float[] LEDTimer = new float[m_Urg.getDetecRegions.Length];
-            Debug.Log("getDetecRegion : " + m_Urg.getDetecRegions.Length);
+            //Debug.Log("getDetecRegion : " + m_Urg.getDetecRegions.Length);
             for (int i = 0; i < LedPin.Length; i++) 
             {
                 
@@ -168,6 +190,7 @@ namespace Uniduino.Examples
 
                 LEDTimer[i] = 0;
             }
+
            
             //loop function
             while (true)
@@ -176,15 +199,61 @@ namespace Uniduino.Examples
                 {
                     infoText.text = "";
 
+                    //event check layer
+                    if(!isDetectNothing() && isLoop)
+                    {
+                        isLoop = false;
+                        playingIndex = 0;
+                        nowPlaying = animationClips[playingIndex].type;
+                        LightStates = new bool[Light.Count];
+                    }
+                    else if(isDetectNothing() && !isLoop)
+                    {
+                        isLoop = true;
+                        playingIndex = 0;
+                        nowPlaying = animationClips[playingIndex].type;
+                        LightStates = new bool[Light.Count];
+                    }
+
+                    //playing animation
                     if(isDetectNothing())
                     {
-                        for (int i = 0; i < LedPin.Length; i++)
+
+                        while (isLoop)
                         {
-                            arduino.digitalWrite(LedPin[i],(arduinoState1));
-                            LEDTimer[i] = 0;
+                            //check what stat now it is 
+                            animationClips[playingIndex].AnimationSetting.stateSelector();
+                            switch (animationClips[playingIndex].m_animation.nowState)
+                            {
+                                case AnimationPrototype.animationState.start:
+                                    animationClips[playingIndex].AnimationSetting.InitializeAnimation(ref LightStates);
+                                    break;
+                                case AnimationPrototype.animationState.update:
+                                    animationClips[playingIndex].m_animation.UpdateAnimation(ref LightStates);
+                                    break;
+                                case AnimationPrototype.animationState.end:
+                                    animationClips[playingIndex].m_animation.EndAnimation(ref LightStates);
+                                    playingIndex += 1;
+                                    if (playingIndex >= animationClips.Count)
+                                    {
+                                        playingIndex = 0;
+                                    }
+                                    nowPlaying = animationClips[playingIndex].type;
+                                    break;
+                            }
+
+                            for (int i = 0; i < Light.Count; i++)
+                            {
+                                var state = arduino.digitalRead(LedPin[i]);
+                                var boolTransferToArduinoState = LightStates[i] ^ isUseGlobalAntiLogic ? Arduino.HIGH : Arduino.LOW;
+                                if (state != boolTransferToArduinoState)
+                                {
+                                    //Light[i].GetComponent<MeshRenderer>().enabled = LightStates[i] ^ isUseGlobalAntiLogic;
+                                    arduino.digitalWrite(LedPin[i], boolTransferToArduinoState);
+                                }
+                            }
+                            //yield return new WaitForSeconds(1 / frameRate);
                         }
-                        infoText.text += "detect nothing";
-                        //Debug.Log("detect nothing");
                     }
                     else
                     {
@@ -205,11 +274,11 @@ namespace Uniduino.Examples
                         }
                     }
 
-                    yield return new WaitForSeconds(0.3f);
+                    yield return new WaitForSeconds(1 / frameRate);
                 }
                 else
                 {
-                    Debug.LogError("HOKUYO not connect");
+                    //Debug.LogError("HOKUYO not connect");
                     yield return new WaitForSeconds(3f);
                 }
 
@@ -285,11 +354,11 @@ namespace Uniduino.Examples
                                 }*/
                                 received_pins = null;
                             }    
-                            if (GUILayout.Button("Relay Animation"))
-                            {
-                                Debug.Log("Start coroutine");
-                                StartCoroutine(RelayControll());
-                            }
+                            //if (GUILayout.Button("Relay Animation"))
+                            //{
+                            //    Debug.Log("Start coroutine");
+                            //    StartCoroutine(RelayControll());
+                            //}
 
                             if (GUILayout.Button("URGControl"))
                             {

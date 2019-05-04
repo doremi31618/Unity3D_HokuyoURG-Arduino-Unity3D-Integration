@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
+using Uniduino.Examples;
 public class URGSample : MonoBehaviour
 {
 
@@ -56,7 +57,11 @@ public class URGSample : MonoBehaviour
     int drawCount;
     protected Rect _detectAreaRect;
     public Color detecColor = Color.red;
-    public int detectRegionNumber = 20;
+
+    //decide by led pin number
+    [HideInInspector]public int detectRegionNumber = 20;
+    public UniduinoTestPanel testPanel;
+    //public int detect
     private int singleLenth;
     private bool[] DetecRegions = new bool[20];
     public bool[] getDetecRegions
@@ -88,6 +93,8 @@ public class URGSample : MonoBehaviour
 
         if (ifDetectCollision)
         {
+            if (testPanel == null) Debug.LogError("testPannel is null");
+            detectRegionNumber = testPanel.LedPin.Length;
             DetecRegions = new bool[detectRegionNumber];
             regionPointCount = new int[detectRegionNumber];
             for (int i = 0; i < DetecRegions.Length; i++)
