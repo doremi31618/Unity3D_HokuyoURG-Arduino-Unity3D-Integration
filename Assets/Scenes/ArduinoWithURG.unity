@@ -901,7 +901,7 @@ PrefabInstance:
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
       propertyPath: threshold
-      value: 2
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
