@@ -125,6 +125,7 @@ namespace Uniduino.Examples
         //arduino function
         public IEnumerator RelayControll()
         {
+            /*
             Debug.Log("Configure Pins");
             //arduino.Baud = Baud;
 
@@ -136,10 +137,25 @@ namespace Uniduino.Examples
 
             int currentPin = 0;
             Debug.Log("Relay Control");
+            //arduino.Baud = Baud;
+            int arduinoState1 = 0;
+            int arduinoState2 = 0;
+            */
+            //arduinoState1 default value equal to high
+            //arduinoState2 default value equal to low
+            int arduinoState1 = LogicStateSetting.State1 ^ isUseGlobalAntiLogic ? Arduino.HIGH : Arduino.LOW;
+            int arduinoState2 = LogicStateSetting.State2 ^ isUseGlobalAntiLogic ? Arduino.LOW : Arduino.HIGH;
+
+            //light animation attribute initialize
+            int playingIndex = 0;
+            nowPlaying = animationClips[playingIndex].type;
+            LightStates = new bool[m_Urg.getDetecRegions.Length];
+
+            //float[] LEDTimer = new float[m_Urg.getDetecRegions.Length];
 
             //loop function
-            while (true)
-            {
+            while (isLoop)
+            {/*
                 int nextPin = CalculateNextLedPin(currentPin);
                 Debug.Log("next Pin : " + LedPin[nextPin]);
 
@@ -153,9 +169,45 @@ namespace Uniduino.Examples
 
                 //reset the data
                 currentPin = nextPin;
+                */
+
+                
+                //check what stat now it is 
+                animationClips[playingIndex].AnimationSetting.stateSelector();
+                switch (animationClips[playingIndex].m_animation.nowState)
+                {
+                    case AnimationPrototype.animationState.start:
+                        animationClips[playingIndex].AnimationSetting.InitializeAnimation(ref LightStates);
+                        break;
+                    case AnimationPrototype.animationState.update:
+                        animationClips[playingIndex].m_animation.UpdateAnimation(ref LightStates);
+                        break;
+                    case AnimationPrototype.animationState.end:
+                        animationClips[playingIndex].m_animation.EndAnimation(ref LightStates);
+                        playingIndex += 1;
+                        if (playingIndex >= animationClips.Count)
+                        {
+                            playingIndex = 0;
+                        }
+                        nowPlaying = animationClips[playingIndex].type;
+                        break;
+                }
+
+                for (int i = 0; i < m_Urg.getDetecRegions.Length; i++)
+                {
+                    var state = arduino.digitalRead(LedPin[i]);
+                    var boolTransferToArduinoState = LightStates[i] ^ isUseGlobalAntiLogic ? Arduino.HIGH : Arduino.LOW;
+                    Debug.Log("Led pin : " + LedPin[i] + " State : " + state + " Light state : " + boolTransferToArduinoState);
+                    if (state != boolTransferToArduinoState)
+                    {
+                        //Light[i].GetComponent<MeshRenderer>().enabled = LightStates[i] ^ isUseGlobalAntiLogic;
+                        Debug.Log("Led pin : " + LedPin[i] + "Arduino write: " + boolTransferToArduinoState);
+                        arduino.digitalWrite(LedPin[i], boolTransferToArduinoState);
+                    }
+                }
 
                 //delay 1 second
-                yield return new WaitForSeconds(_loopTime);
+                yield return new WaitForSeconds(1 / frameRate);
 
             }
 
@@ -178,7 +230,7 @@ namespace Uniduino.Examples
             //light animation attribute initialize
             int playingIndex = 0;
             nowPlaying = animationClips[playingIndex].type;
-            LightStates = new bool[Light.Count];
+            LightStates = new bool[m_Urg.getDetecRegions.Length];
 
             float[] LEDTimer = new float[m_Urg.getDetecRegions.Length];
             //Debug.Log("getDetecRegion : " + m_Urg.getDetecRegions.Length);
@@ -205,22 +257,20 @@ namespace Uniduino.Examples
                         isLoop = false;
                         playingIndex = 0;
                         nowPlaying = animationClips[playingIndex].type;
-                        LightStates = new bool[Light.Count];
+                        LightStates = new bool[m_Urg.getDetecRegions.Length];
                     }
                     else if(isDetectNothing() && !isLoop)
                     {
                         isLoop = true;
                         playingIndex = 0;
                         nowPlaying = animationClips[playingIndex].type;
-                        LightStates = new bool[Light.Count];
+                        LightStates = new bool[m_Urg.getDetecRegions.Length];
                     }
 
                     //playing animation
                     if(isDetectNothing() && isLoop)
                     {
-
-                        while (isLoop)
-                        {
+                        
                             //check what stat now it is 
                             animationClips[playingIndex].AnimationSetting.stateSelector();
                             switch (animationClips[playingIndex].m_animation.nowState)
@@ -241,19 +291,33 @@ namespace Uniduino.Examples
                                     nowPlaying = animationClips[playingIndex].type;
                                     break;
                             }
-
-                            for (int i = 0; i < Light.Count; i++)
+                            /*
+                            for (int i = 0; i < m_Urg.getDetecRegions.Length; i++)
                             {
                                 var state = arduino.digitalRead(LedPin[i]);
                                 var boolTransferToArduinoState = LightStates[i] ^ isUseGlobalAntiLogic ? Arduino.HIGH : Arduino.LOW;
+                                //Debug.Log("Led pin : " + LedPin[i] + " State : " + state + " Light state : " + boolTransferToArduinoState);
                                 if (state != boolTransferToArduinoState)
                                 {
-                                    //Light[i].GetComponent<MeshRenderer>().enabled = LightStates[i] ^ isUseGlobalAntiLogic;
+                                    
+                                    Light[i].GetComponent<MeshRenderer>().enabled = LightStates[i] ^ isUseGlobalAntiLogic;
+                                    //Debug.Log("Led pin : " + LedPin[i] + "Arduino write: " + boolTransferToArduinoState);
                                     arduino.digitalWrite(LedPin[i], boolTransferToArduinoState);
                                 }
                             }
-                            //yield return new WaitForSeconds(1 / frameRate);
-                        }
+                            */
+                            for (int i = 0; i < Light.Count; i++)
+                            {
+                                if (Light[i].GetComponent<MeshRenderer>().enabled != LightStates[i] ^ isUseGlobalAntiLogic)
+                                {
+                                    Light[i].GetComponent<MeshRenderer>().enabled = LightStates[i] ^ isUseGlobalAntiLogic;
+                                var boolTransferToArduinoState = LightStates[i] ^ isUseGlobalAntiLogic ? Arduino.HIGH : Arduino.LOW;
+                                arduino.digitalWrite(LedPin[i], boolTransferToArduinoState);
+                            }
+                                    //Light[i].GetComponent<MeshRenderer>().enabled = LightStates[i] ^ isUseGlobalAntiLogic;
+                            }
+                        //yield return new WaitForSeconds(1 / frameRate);
+
                     }
                     else
                     {
@@ -354,11 +418,11 @@ namespace Uniduino.Examples
                                 }*/
                                 received_pins = null;
                             }    
-                            //if (GUILayout.Button("Relay Animation"))
-                            //{
-                            //    Debug.Log("Start coroutine");
-                            //    StartCoroutine(RelayControll());
-                            //}
+                            if (GUILayout.Button("Relay Animation"))
+                            {
+                                Debug.Log("Start coroutine");
+                                StartCoroutine(RelayControll());
+                            }
 
                             if (GUILayout.Button("URGControl"))
                             {
