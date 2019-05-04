@@ -360,10 +360,34 @@ MonoBehaviour:
   isUseGlobalAntiLogic: 0
   animationClips:
   - type: 4
-    AnimationClipTime: 3.2
-    StartState: 0
+    AnimationClipTime: 2
+    StartState: 2
     EndingState: 0
     antiLogic: 0
+    antiOrder: 0
+  - type: 3
+    AnimationClipTime: 2
+    StartState: 0
+    EndingState: 0
+    antiLogic: 1
+    antiOrder: 0
+  - type: 3
+    AnimationClipTime: 1.6
+    StartState: 0
+    EndingState: 0
+    antiLogic: 1
+    antiOrder: 0
+  - type: 3
+    AnimationClipTime: 2
+    StartState: 0
+    EndingState: 0
+    antiLogic: 1
+    antiOrder: 0
+  - type: 4
+    AnimationClipTime: 2
+    StartState: 0
+    EndingState: 2
+    antiLogic: 1
     antiOrder: 0
   Light:
   - {fileID: 1439471632}
@@ -888,7 +912,7 @@ PrefabInstance:
         type: 3}
       propertyPath: testPanel
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 177584840}
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
       propertyPath: ip_address
@@ -1028,7 +1052,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4893024175804288, guid: 26ca55528543742978fb2995b85ef588, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.9
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4893024175804288, guid: 26ca55528543742978fb2995b85ef588, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1062,6 +1086,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114577493745419870, guid: 26ca55528543742978fb2995b85ef588,
+        type: 3}
+      propertyPath: frameRate
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1351665600860804, guid: 26ca55528543742978fb2995b85ef588, type: 3}
       propertyPath: m_IsActive
