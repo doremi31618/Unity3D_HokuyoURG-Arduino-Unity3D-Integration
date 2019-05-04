@@ -216,7 +216,7 @@ namespace Uniduino.Examples
                     }
 
                     //playing animation
-                    if(isDetectNothing())
+                    if(isDetectNothing() && isLoop)
                     {
 
                         while (isLoop)
