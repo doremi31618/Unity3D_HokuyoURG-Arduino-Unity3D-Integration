@@ -374,42 +374,21 @@ MonoBehaviour:
     antiOrder: 0
     maxIntervalLight: 2
   - type: 3
-    AnimationClipTime: 1.6
-    StartState: 0
-    EndingState: 0
-    antiLogic: 1
-    antiOrder: 0
-    maxIntervalLight: 1
-  - type: 1
-    AnimationClipTime: 0.4
-    StartState: 0
-    EndingState: 0
-    antiLogic: 1
-    antiOrder: 0
-    maxIntervalLight: 3
-  - type: 3
-    AnimationClipTime: 1.6
-    StartState: 0
-    EndingState: 0
-    antiLogic: 1
-    antiOrder: 0
-    maxIntervalLight: 1
-  - type: 1
-    AnimationClipTime: 0.4
+    AnimationClipTime: 1.2
     StartState: 0
     EndingState: 0
     antiLogic: 1
     antiOrder: 0
     maxIntervalLight: 2
   - type: 3
-    AnimationClipTime: 1.6
+    AnimationClipTime: 1
     StartState: 0
     EndingState: 0
     antiLogic: 1
     antiOrder: 0
     maxIntervalLight: 2
-  - type: 1
-    AnimationClipTime: 0.4
+  - type: 3
+    AnimationClipTime: 1.2
     StartState: 0
     EndingState: 0
     antiLogic: 1
@@ -421,7 +400,7 @@ MonoBehaviour:
     EndingState: 0
     antiLogic: 1
     antiOrder: 0
-    maxIntervalLight: 2
+    maxIntervalLight: 3
   Light:
   - {fileID: 1439471632}
   - {fileID: 316990788}
