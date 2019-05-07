@@ -93,7 +93,7 @@ public class AnimationModel
     public AnimationPrototype m_animation;
     public bool antiLogic = false;
     public bool antiOrder = false;
-    //[Tooltip("Only use in LightingUpFromStartToEnd")] public int maxIntervalLight = 3;
+    [Tooltip("Only use in LightingUpFromStartToEnd")] public int maxIntervalLight = 3;
     public AnimationPrototype AnimationSetting
     {
         get
@@ -110,7 +110,7 @@ public class AnimationModel
                         break;
                     case AnimationType.LightingUpFromStartToEnd:
                         m_animation = new LightingUpFromStartToEnd();
-                        //m_animation.maxIntervalNumber = maxIntervalLight;
+                        m_animation.maxIntervalNumber = maxIntervalLight;
                         break;
                     case AnimationType.EqualDifferenceSeriesAnimation:
                         m_animation = new EqualDifferenceSeriesAnimation();
@@ -135,7 +135,7 @@ public class AnimationPrototype
     public AnimationType StartState;
     public AnimationType EndingState;
     public animationState nowState;
-    //public int maxIntervalNumber = 3;
+    public int maxIntervalNumber = 3;
     //protected StateSetting state;
     [Tooltip("Control direction use")]public bool isUseAntiOrder;
     [Tooltip("Control logic use")]public bool isUseAntiLogic;
@@ -239,7 +239,7 @@ public class LightingUpFromStartToEnd : AnimationPrototype
     public override void UpdateAnimation(ref bool[] _states)
     {
         timer += Time.deltaTime;
-        AnimatiionLogic_1(isUseAntiOrder,3, ref _states);
+        AnimatiionLogic_1(isUseAntiOrder,maxIntervalNumber, ref _states);
         //Debug.Log("Update lighting up animation" + timer);
     }
     void AnimatiionLogic_1(bool _isUseAntiOrder,int maxDarkNumber, ref bool[] _states)
@@ -247,7 +247,7 @@ public class LightingUpFromStartToEnd : AnimationPrototype
         int dir = _isUseAntiOrder ? -1 : 1;
         int timeIndex = (int)Mathf.Lerp(0, _states.Length, timer / timeLength) * dir;
         int min = (_isUseAntiOrder ? (_states.Length - 1) + maxDarkNumber : 0 - maxDarkNumber) + timeIndex;
-        int max = (_isUseAntiOrder ? min - 2  : min + 2);
+        int max = (_isUseAntiOrder ? min - (maxDarkNumber - 1) : min + (maxDarkNumber - 1));
         //Debug.Log("min : " + min + " max : " + max);
         for (int i = 0; i < _states.Length;i++)
         {
