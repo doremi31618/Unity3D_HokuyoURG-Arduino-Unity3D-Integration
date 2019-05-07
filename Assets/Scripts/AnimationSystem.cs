@@ -249,7 +249,7 @@ public class LightingUpFromStartToEnd : AnimationPrototype
     void AnimatiionLogic_1(bool _isUseAntiOrder,int maxDarkNumber, ref bool[] _states)
     {
         int dir = _isUseAntiOrder ? -1 : 1;
-        int timeIndex = (int)Mathf.Lerp(0, _states.Length, timer / timeLength) * dir;
+        int timeIndex = (int)Mathf.Lerp(0, _states.Length + (maxDarkNumber ), timer / timeLength) * dir;
         int min = (_isUseAntiOrder ? (_states.Length - 1) + maxDarkNumber : 0 - maxDarkNumber) + timeIndex;
         int max = (_isUseAntiOrder ? min - (maxDarkNumber - 1) : min + (maxDarkNumber - 1));
         //Debug.Log("min : " + min + " max : " + max);
