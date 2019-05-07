@@ -94,6 +94,7 @@ public class URGSample : MonoBehaviour
         if (ifDetectCollision)
         {
             if (testPanel == null) Debug.LogError("testPannel is null");
+
             detectRegionNumber = testPanel.LedPin.Length;
             DetecRegions = new bool[detectRegionNumber];
             regionPointCount = new int[detectRegionNumber];

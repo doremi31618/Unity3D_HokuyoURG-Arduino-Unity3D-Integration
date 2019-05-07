@@ -93,6 +93,7 @@ public class AnimationModel
     public AnimationPrototype m_animation;
     public bool antiLogic = false;
     public bool antiOrder = false;
+    //[Tooltip("Only use in LightingUpFromStartToEnd")] public int maxIntervalLight = 3;
     public AnimationPrototype AnimationSetting
     {
         get
@@ -109,6 +110,7 @@ public class AnimationModel
                         break;
                     case AnimationType.LightingUpFromStartToEnd:
                         m_animation = new LightingUpFromStartToEnd();
+                        //m_animation.maxIntervalNumber = maxIntervalLight;
                         break;
                     case AnimationType.EqualDifferenceSeriesAnimation:
                         m_animation = new EqualDifferenceSeriesAnimation();
@@ -133,6 +135,7 @@ public class AnimationPrototype
     public AnimationType StartState;
     public AnimationType EndingState;
     public animationState nowState;
+    //public int maxIntervalNumber = 3;
     //protected StateSetting state;
     [Tooltip("Control direction use")]public bool isUseAntiOrder;
     [Tooltip("Control logic use")]public bool isUseAntiLogic;
@@ -218,6 +221,7 @@ public class FullLightAnimation : AnimationPrototype
 
 public class FullDarkAnimation : AnimationPrototype
 {
+    
     //StateSetting state = new StateSetting();
     public override void InitializeAnimation(ref bool[] _states)
     {
@@ -235,7 +239,7 @@ public class LightingUpFromStartToEnd : AnimationPrototype
     public override void UpdateAnimation(ref bool[] _states)
     {
         timer += Time.deltaTime;
-        AnimatiionLogic_1(isUseAntiOrder, 3, ref _states);
+        AnimatiionLogic_1(isUseAntiOrder,3, ref _states);
         //Debug.Log("Update lighting up animation" + timer);
     }
     void AnimatiionLogic_1(bool _isUseAntiOrder,int maxDarkNumber, ref bool[] _states)
