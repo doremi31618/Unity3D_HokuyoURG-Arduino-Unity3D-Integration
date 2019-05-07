@@ -242,6 +242,10 @@ public class LightingUpFromStartToEnd : AnimationPrototype
         AnimatiionLogic_1(isUseAntiOrder,maxIntervalNumber, ref _states);
         //Debug.Log("Update lighting up animation" + timer);
     }
+    //public override void EndAnimation(ref bool[] _states)
+    //{
+        
+    //}
     void AnimatiionLogic_1(bool _isUseAntiOrder,int maxDarkNumber, ref bool[] _states)
     {
         int dir = _isUseAntiOrder ? -1 : 1;
@@ -295,9 +299,11 @@ public class EqualDifferenceSeriesAnimation : AnimationPrototype
                 if(i <= timeIndex)
                 {
                     _states[i] = LogicStateSetting.State1 ^ isUseAntiLogic;
+
                 }else
                 {
                     _states[i] = LogicStateSetting.State2 ^ isUseAntiLogic;
+
                 }
             }
             //anti order

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -361,22 +361,22 @@ MonoBehaviour:
   animationClips:
   - type: 4
     AnimationClipTime: 1
-    StartState: 2
-    EndingState: 1
+    StartState: 0
+    EndingState: 0
     antiLogic: 0
     antiOrder: 0
     maxIntervalLight: 3
   - type: 1
     AnimationClipTime: 0.4
-    StartState: 1
-    EndingState: 1
+    StartState: 0
+    EndingState: 0
     antiLogic: 1
     antiOrder: 0
     maxIntervalLight: 2
   - type: 3
     AnimationClipTime: 1
-    StartState: 1
-    EndingState: 1
+    StartState: 0
+    EndingState: 0
     antiLogic: 1
     antiOrder: 0
     maxIntervalLight: 2
@@ -390,7 +390,7 @@ MonoBehaviour:
   - type: 3
     AnimationClipTime: 1
     StartState: 0
-    EndingState: 1
+    EndingState: 0
     antiLogic: 1
     antiOrder: 0
     maxIntervalLight: 2
@@ -404,7 +404,7 @@ MonoBehaviour:
   - type: 3
     AnimationClipTime: 1
     StartState: 0
-    EndingState: 1
+    EndingState: 0
     antiLogic: 1
     antiOrder: 0
     maxIntervalLight: 2
@@ -1027,38 +1027,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1273989365274168, guid: 26ca55528543742978fb2995b85ef588, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1429546209925104, guid: 26ca55528543742978fb2995b85ef588, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1702710380822864, guid: 26ca55528543742978fb2995b85ef588, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1727122449077078, guid: 26ca55528543742978fb2995b85ef588, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1992840481657810, guid: 26ca55528543742978fb2995b85ef588, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1380587543867686, guid: 26ca55528543742978fb2995b85ef588, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1147226380213146, guid: 26ca55528543742978fb2995b85ef588, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1508604530885344, guid: 26ca55528543742978fb2995b85ef588, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4893024175804288, guid: 26ca55528543742978fb2995b85ef588, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.54
@@ -1105,7 +1073,46 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114742055276322184, guid: 26ca55528543742978fb2995b85ef588,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1727122449077078, guid: 26ca55528543742978fb2995b85ef588, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1380587543867686, guid: 26ca55528543742978fb2995b85ef588, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1702710380822864, guid: 26ca55528543742978fb2995b85ef588, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1992840481657810, guid: 26ca55528543742978fb2995b85ef588, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273989365274168, guid: 26ca55528543742978fb2995b85ef588, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1508604530885344, guid: 26ca55528543742978fb2995b85ef588, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429546209925104, guid: 26ca55528543742978fb2995b85ef588, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1147226380213146, guid: 26ca55528543742978fb2995b85ef588, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114742055276322184, guid: 26ca55528543742978fb2995b85ef588, type: 3}
+    - {fileID: 114577493745419870, guid: 26ca55528543742978fb2995b85ef588, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 26ca55528543742978fb2995b85ef588, type: 3}
 --- !u!1 &2007951272
 GameObject:
