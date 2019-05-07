@@ -340,7 +340,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 101521369}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &177584840
+--- !u!114 &177584841
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -362,78 +362,66 @@ MonoBehaviour:
   - type: 4
     AnimationClipTime: 1
     StartState: 2
-    EndingState: 0
+    EndingState: 1
     antiLogic: 0
     antiOrder: 0
+    maxIntervalLight: 3
+  - type: 1
+    AnimationClipTime: 0.4
+    StartState: 1
+    EndingState: 1
+    antiLogic: 1
+    antiOrder: 0
+    maxIntervalLight: 2
   - type: 3
     AnimationClipTime: 1
+    StartState: 1
+    EndingState: 1
+    antiLogic: 1
+    antiOrder: 0
+    maxIntervalLight: 2
+  - type: 1
+    AnimationClipTime: 0.4
     StartState: 0
     EndingState: 0
     antiLogic: 1
     antiOrder: 0
-  Light:
-  - {fileID: 1439471632}
-  - {fileID: 316990788}
-  - {fileID: 969930032}
-  - {fileID: 1027532240}
-  - {fileID: 1023636282}
-  - {fileID: 1807363161}
-  - {fileID: 913965048}
-  - {fileID: 944653226}
-  nowPlaying: 0
-  LedPin: 160000001700000018000000190000001a0000001b0000001c0000001d000000
-  pinNumber: 4
-  infoText: {fileID: 304245048}
-  m_Urg: {fileID: 2053267172}
---- !u!114 &177584841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 177584838}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce89c4aa5bacf4318ab908c2edd6af49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skin: {fileID: 11400000, guid: 7f322e40a0d7f430287a28212401096d, type: 2}
-  arduino: {fileID: 0}
-  shiningTime: 0.5
-  frameRate: 6
-  isLoop: 1
-  isUseGlobalAntiLogic: 0
-  animationClips:
+    maxIntervalLight: 3
+  - type: 3
+    AnimationClipTime: 1
+    StartState: 0
+    EndingState: 1
+    antiLogic: 1
+    antiOrder: 0
+    maxIntervalLight: 2
+  - type: 1
+    AnimationClipTime: 0.4
+    StartState: 0
+    EndingState: 0
+    antiLogic: 1
+    antiOrder: 0
+    maxIntervalLight: 2
+  - type: 3
+    AnimationClipTime: 1
+    StartState: 0
+    EndingState: 1
+    antiLogic: 1
+    antiOrder: 0
+    maxIntervalLight: 2
+  - type: 1
+    AnimationClipTime: 0.4
+    StartState: 0
+    EndingState: 0
+    antiLogic: 1
+    antiOrder: 0
+    maxIntervalLight: 2
   - type: 4
     AnimationClipTime: 1
-    StartState: 2
-    EndingState: 0
-    antiLogic: 0
-    antiOrder: 0
-  - type: 3
-    AnimationClipTime: 1
     StartState: 0
     EndingState: 0
     antiLogic: 1
     antiOrder: 0
-  - type: 3
-    AnimationClipTime: 1
-    StartState: 0
-    EndingState: 0
-    antiLogic: 1
-    antiOrder: 0
-  - type: 3
-    AnimationClipTime: 1
-    StartState: 0
-    EndingState: 0
-    antiLogic: 1
-    antiOrder: 0
-  - type: 4
-    AnimationClipTime: 2
-    StartState: 0
-    EndingState: 2
-    antiLogic: 1
-    antiOrder: 0
+    maxIntervalLight: 2
   Light:
   - {fileID: 1439471632}
   - {fileID: 316990788}
@@ -919,7 +907,7 @@ PrefabInstance:
         type: 3}
       propertyPath: testPanel
       value: 
-      objectReference: {fileID: 177584840}
+      objectReference: {fileID: 177584841}
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
       propertyPath: ip_address
