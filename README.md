@@ -1,8 +1,11 @@
 # URG_with_Arduino_In_Unity3D
 
 ![image](https://github.com/doremi31618/HokuyoURG_with_Arduino_In_Unity3D/blob/master/Pic/ezgif.com-video-to-gif.gif). 
-
-
+更新
+========
+1.新增動畫系統
+2.新增動畫系統實作
+![image](https://github.com/doremi31618/HokuyoURG_with_Arduino_In_Unity3D/blob/master/Pic/AnimationSystemDemo.gif).
 專案說明：
 ========
 使用Hokuyo URG(雷達眼)偵測周圍經過的體驗者，並利用Arduino + Relay（繼電器)同步控制日光燈管的開關。  
