@@ -1,4 +1,4 @@
-# [Unity project]URG and Arduino control with light animation system.
+# [Unity]URG and Arduino control with light animation system
 
 ![image](https://github.com/doremi31618/HokuyoURG_with_Arduino_In_Unity3D/blob/master/Pic/ezgif.com-video-to-gif.gif). 
 
