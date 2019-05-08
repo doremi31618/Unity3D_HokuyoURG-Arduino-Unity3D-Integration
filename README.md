@@ -2,6 +2,14 @@
 
 ![image](https://github.com/doremi31618/HokuyoURG_with_Arduino_In_Unity3D/blob/master/Pic/ezgif.com-video-to-gif.gif). 
 
+更新： 
+========
+1.新增動畫系統.  
+
+2.新增動畫系統實作. 
+
+![image](https://github.com/doremi31618/HokuyoURG_with_Arduino_In_Unity3D/blob/master/Pic/AnimationSystemDemo.gif).
+
 
 專案說明：
 ========
