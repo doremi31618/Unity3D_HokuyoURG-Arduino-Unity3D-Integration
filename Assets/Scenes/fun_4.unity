@@ -364,42 +364,42 @@ MonoBehaviour:
     StartState: 0
     EndingState: 0
     antiLogic: 0
-    antiOrder: 0
+    antiOrder: 1
     maxIntervalLight: 3
   - type: 1
     AnimationClipTime: 0.4
     StartState: 0
     EndingState: 0
     antiLogic: 1
-    antiOrder: 0
+    antiOrder: 1
     maxIntervalLight: 2
   - type: 3
     AnimationClipTime: 1.2
     StartState: 0
     EndingState: 0
     antiLogic: 1
-    antiOrder: 0
+    antiOrder: 1
     maxIntervalLight: 2
   - type: 3
     AnimationClipTime: 1
     StartState: 0
     EndingState: 0
     antiLogic: 1
-    antiOrder: 0
+    antiOrder: 1
     maxIntervalLight: 2
   - type: 3
     AnimationClipTime: 1.2
     StartState: 0
     EndingState: 0
     antiLogic: 1
-    antiOrder: 0
+    antiOrder: 1
     maxIntervalLight: 2
   - type: 4
     AnimationClipTime: 1
     StartState: 0
     EndingState: 0
     antiLogic: 1
-    antiOrder: 0
+    antiOrder: 1
     maxIntervalLight: 3
   Light:
   - {fileID: 1439471632}
@@ -807,17 +807,17 @@ PrefabInstance:
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
       propertyPath: areaRect.width
-      value: 3018
+      value: 2441
       objectReference: {fileID: 0}
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
       propertyPath: areaRect.height
-      value: 460.6
+      value: 791
       objectReference: {fileID: 0}
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
       propertyPath: areaRect.y
-      value: 44
+      value: 193.9
       objectReference: {fileID: 0}
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
@@ -832,7 +832,7 @@ PrefabInstance:
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
       propertyPath: threshold
-      value: 29
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
@@ -852,7 +852,7 @@ PrefabInstance:
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
       propertyPath: areaRect.x
-      value: -1572
+      value: 935
       objectReference: {fileID: 0}
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
