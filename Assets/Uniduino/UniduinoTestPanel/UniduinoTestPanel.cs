@@ -51,6 +51,11 @@ namespace Uniduino.Examples
         private bool[] LightStates;
 
         public AnimationType nowPlaying;
+
+        public AudioClip defaultBackgroundMusic;
+        public AudioClip detectPersonBackgrounMusic;
+
+        public AudioSource m_audioPlayer;
             
         void Start () {        
             
@@ -67,6 +72,7 @@ namespace Uniduino.Examples
             arduino = Arduino.global;                         // convenience, alias the global arduino singleton
             arduino.Log = (s) => Debug.Log("Arduino: " +s); // Attach arduino logs to Debug.Log
             hookEvents();                                    // set up event callbacks for received data
+            m_audioPlayer = GetComponent<AudioSource>();
 
         }
 
@@ -254,10 +260,13 @@ namespace Uniduino.Examples
                     //event check layer
                     if(!isDetectNothing() && isLoop)
                     {
+                        
                         isLoop = false;
                         playingIndex = 0;
                         nowPlaying = animationClips[playingIndex].type;
                         LightStates = new bool[m_Urg.getDetecRegions.Length];
+                        m_audioPlayer.clip = detectPersonBackgrounMusic;
+                        m_audioPlayer.Play();
                     }
                     else if(isDetectNothing() && !isLoop)
                     {
@@ -265,6 +274,8 @@ namespace Uniduino.Examples
                         playingIndex = 0;
                         nowPlaying = animationClips[playingIndex].type;
                         LightStates = new bool[m_Urg.getDetecRegions.Length];
+                        m_audioPlayer.clip = defaultBackgroundMusic;
+                        m_audioPlayer.Play();
                     }
 
                     //playing animation
@@ -291,21 +302,6 @@ namespace Uniduino.Examples
                                     nowPlaying = animationClips[playingIndex].type;
                                     break;
                             }
-                            /*
-                            for (int i = 0; i < m_Urg.getDetecRegions.Length; i++)
-                            {
-                                var state = arduino.digitalRead(LedPin[i]);
-                                var boolTransferToArduinoState = LightStates[i] ^ isUseGlobalAntiLogic ? Arduino.HIGH : Arduino.LOW;
-                                //Debug.Log("Led pin : " + LedPin[i] + " State : " + state + " Light state : " + boolTransferToArduinoState);
-                                if (state != boolTransferToArduinoState)
-                                {
-                                    
-                                    Light[i].GetComponent<MeshRenderer>().enabled = LightStates[i] ^ isUseGlobalAntiLogic;
-                                    //Debug.Log("Led pin : " + LedPin[i] + "Arduino write: " + boolTransferToArduinoState);
-                                    arduino.digitalWrite(LedPin[i], boolTransferToArduinoState);
-                                }
-                            }
-                            */
                             for (int i = 0; i < Light.Count; i++)
                             {
                                 if (Light[i].GetComponent<MeshRenderer>().enabled != LightStates[i] ^ isUseGlobalAntiLogic)
