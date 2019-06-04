@@ -270,6 +270,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1370194662978258, guid: 26ca55528543742978fb2995b85ef588, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4893024175804288, guid: 26ca55528543742978fb2995b85ef588, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -334,7 +338,7 @@ PrefabInstance:
     - target: {fileID: 114742055276322184, guid: 26ca55528543742978fb2995b85ef588,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114742055276322184, guid: 26ca55528543742978fb2995b85ef588,
         type: 3}
@@ -461,5 +465,151 @@ PrefabInstance:
       propertyPath: animationClips.Array.data[2].maxIntervalLight
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114577493745419870, guid: 26ca55528543742978fb2995b85ef588, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 26ca55528543742978fb2995b85ef588, type: 3}
+--- !u!1 &1562193697 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1370194662978258, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193698 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1147226380213146, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193699 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1429546209925104, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193700 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1508604530885344, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193701 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1273989365274168, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193702 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1992840481657810, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193703 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1702710380822864, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193704 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1380587543867686, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193705 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1727122449077078, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193706 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1629064424097582, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193707 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1664867400922000, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193708 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1195929030355978, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193709 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1161677856491888, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193710 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1838342470376282, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193711 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1463982442270850, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193712 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1342834316908182, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1562193713 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1772017442518374, guid: 26ca55528543742978fb2995b85ef588,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562193696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1562193714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562193697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffc91bda5d6f84a5f97a11db81fc6433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frameRate: 24
+  isLoop: 1
+  isUseGlobalAntiLogic: 0
+  animationClips:
+  - type: 3
+    AnimationClipTime: 1
+    StartState: 0
+    EndingState: 0
+    antiLogic: 0
+    antiOrder: 0
+    color2: {r: 1, g: 0, b: 0, a: 1}
+    color1: {r: 0, g: 0.12823725, b: 1, a: 1}
+    maxIntervalLight: 11
+  Light:
+  - {fileID: 1562193713}
+  - {fileID: 1562193712}
+  - {fileID: 1562193711}
+  - {fileID: 1562193710}
+  - {fileID: 1562193709}
+  - {fileID: 1562193708}
+  - {fileID: 1562193707}
+  - {fileID: 1562193706}
+  - {fileID: 1562193705}
+  - {fileID: 1562193704}
+  - {fileID: 1562193703}
+  - {fileID: 1562193702}
+  - {fileID: 1562193701}
+  - {fileID: 1562193700}
+  - {fileID: 1562193699}
+  - {fileID: 1562193698}
+  nowPlaying: 0
