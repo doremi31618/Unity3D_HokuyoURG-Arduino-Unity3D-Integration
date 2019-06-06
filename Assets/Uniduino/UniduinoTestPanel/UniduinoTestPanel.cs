@@ -36,7 +36,7 @@ namespace Uniduino.Examples
             }
         }
         public float shiningTime = 0.5f;
-
+        public int EarlyLightNumber = 3;
         [Header("AnimationSystem")]
         [Header("state setting")]
         public int frameRate = 5;
@@ -267,6 +267,7 @@ namespace Uniduino.Examples
                         LightStates = new bool[m_Urg.getDetecRegions.Length];
                         m_audioPlayer.clip = detectPersonBackgrounMusic;
                         m_audioPlayer.Play();
+                        Debug.Log("Detect  Someone : play sound track");
                     }
                     else if(isDetectNothing() && !isLoop)
                     {
@@ -276,6 +277,7 @@ namespace Uniduino.Examples
                         LightStates = new bool[m_Urg.getDetecRegions.Length];
                         m_audioPlayer.clip = defaultBackgroundMusic;
                         m_audioPlayer.Play();
+                        Debug.Log("No body : play sound track");
                     }
 
                     //playing animation
@@ -331,6 +333,153 @@ namespace Uniduino.Examples
                             }
                             arduino.digitalWrite(LedPin[i], state);
                             infoText.text += "DetectRegion : " + m_Urg.getDetecRegions[i] + " LedPin : " + LedPin[i] + " state : " + state + "\n"; 
+                        }
+                    }
+
+                    yield return new WaitForSeconds(1 / frameRate);
+                }
+                else
+                {
+                    //Debug.LogError("HOKUYO not connect");
+                    yield return new WaitForSeconds(3f);
+                }
+
+            }
+
+        }
+        public IEnumerator URGControl_new_test()
+        {
+
+            //arduino.Baud = Baud;
+            int arduinoState1 = 0;
+            int arduinoState2 = 0;
+
+            //arduinoState1 default value equal to high
+            //arduinoState2 default value equal to low
+            arduinoState1 = LogicStateSetting.State1 ^ isUseGlobalAntiLogic ? Arduino.HIGH : Arduino.LOW;
+            arduinoState2 = LogicStateSetting.State2 ^ isUseGlobalAntiLogic ? Arduino.LOW : Arduino.HIGH;
+
+            //light animation attribute initialize
+            int playingIndex = 0;
+            nowPlaying = animationClips[playingIndex].type;
+            LightStates = new bool[m_Urg.getDetecRegions.Length];
+
+            float[] LEDTimer = new float[m_Urg.getDetecRegions.Length];
+            //Debug.Log("getDetecRegion : " + m_Urg.getDetecRegions.Length);
+            for (int i = 0; i < LedPin.Length; i++)
+            {
+
+                arduino.pinMode(LedPin[i], PinMode.OUTPUT);
+                arduino.digitalWrite(LedPin[i], (arduinoState2));
+
+                LEDTimer[i] = 0;
+            }
+
+
+            //loop function
+            while (true)
+            {
+                if (m_Urg.urg.isConnected)
+                {
+                    infoText.text = "";
+
+                    //event check layer
+                    if (!isDetectNothing() && isLoop)
+                    {
+
+                        isLoop = false;
+                        playingIndex = 0;
+                        nowPlaying = animationClips[playingIndex].type;
+                        LightStates = new bool[m_Urg.getDetecRegions.Length];
+                        m_audioPlayer.clip = detectPersonBackgrounMusic;
+                        m_audioPlayer.Play();
+                        Debug.Log("Detect  Someone : play sound track");
+                    }
+                    else if (isDetectNothing() && !isLoop)
+                    {
+                        isLoop = true;
+                        playingIndex = 0;
+                        nowPlaying = animationClips[playingIndex].type;
+                        LightStates = new bool[m_Urg.getDetecRegions.Length];
+                        m_audioPlayer.clip = defaultBackgroundMusic;
+                        m_audioPlayer.Play();
+                        Debug.Log("No body : play sound track");
+                    }
+
+                    //playing animation
+                    if (isDetectNothing() && isLoop)
+                    {
+
+                        //check what stat now it is 
+                        animationClips[playingIndex].AnimationSetting.stateSelector();
+                        switch (animationClips[playingIndex].m_animation.nowState)
+                        {
+                            case AnimationPrototype.animationState.start:
+                                animationClips[playingIndex].AnimationSetting.InitializeAnimation(ref LightStates);
+                                break;
+                            case AnimationPrototype.animationState.update:
+                                animationClips[playingIndex].m_animation.UpdateAnimation(ref LightStates);
+                                break;
+                            case AnimationPrototype.animationState.end:
+                                animationClips[playingIndex].m_animation.EndAnimation(ref LightStates);
+                                playingIndex += 1;
+                                if (playingIndex >= animationClips.Count)
+                                {
+                                    playingIndex = 0;
+                                }
+                                nowPlaying = animationClips[playingIndex].type;
+                                break;
+                        }
+                        for (int i = 0; i < Light.Count; i++)
+                        {
+                            if (Light[i].GetComponent<MeshRenderer>().enabled != LightStates[i] ^ isUseGlobalAntiLogic)
+                            {
+                                Light[i].GetComponent<MeshRenderer>().enabled = LightStates[i] ^ isUseGlobalAntiLogic;
+                                var boolTransferToArduinoState = LightStates[i] ^ isUseGlobalAntiLogic ? Arduino.HIGH : Arduino.LOW;
+                                arduino.digitalWrite(LedPin[i], boolTransferToArduinoState);
+                            }
+                            //Light[i].GetComponent<MeshRenderer>().enabled = LightStates[i] ^ isUseGlobalAntiLogic;
+                        }
+                        //yield return new WaitForSeconds(1 / frameRate);
+
+                    }
+                    else
+                    {
+                        int _i = -1;
+                        int _j = -2;
+                        int _k = -3;
+                        int earlyLightNumber = EarlyLightNumber;
+                        for (int i = 0; i < m_Urg.getDetecRegions.Length; i++)
+                        {
+                            var state = arduino.digitalRead(LedPin[i]);
+                            //infoText.text +="DetectRegion : " + m_Urg.getDetecRegions[i] + " LedPin : " + LedPin[i] + " state : " + state + "\n"; 
+                            if (m_Urg.getDetecRegions[i] && state != arduinoState2)
+                            {
+                                state = arduinoState2;
+                                if (_i != i && i != m_Urg.getDetecRegions.Length - 1)
+                                {
+                                    //_i = i + 1;
+                                    //_j = _i + 1;
+
+                                    _k = i + earlyLightNumber;
+                                }
+                            }
+                            else if (!m_Urg.getDetecRegions[i] && state == arduinoState2)
+                            {
+                                state = arduinoState1;
+                            }
+                            //if (i == _i || i == _j) arduino.digitalWrite(LedPin[i], arduinoState2);
+                           
+                            //else arduino.digitalWrite(LedPin[i], state);
+
+                            if(i== _k-earlyLightNumber && earlyLightNumber !=0)
+                            {
+                                earlyLightNumber -= 1;
+                                arduino.digitalWrite(LedPin[i], arduinoState2);
+                            }
+                            else arduino.digitalWrite(LedPin[i], state);
+
+                            infoText.text += "DetectRegion : " + m_Urg.getDetecRegions[i] + " LedPin : " + LedPin[i] + " state : " + state + "\n";
                         }
                     }
 
@@ -424,6 +573,10 @@ namespace Uniduino.Examples
                             {
                                 Debug.Log("Start coroutine URGControl");
                                 StartCoroutine(URGControl());
+                            }
+                            if(GUILayout.Button("URGControl_new_test"))
+                            {
+                            StartCoroutine(URGControl_new_test());
                             }
 
                             GUILayout.FlexibleSpace();

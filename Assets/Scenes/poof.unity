@@ -468,21 +468,21 @@ MonoBehaviour:
     EndingState: 0
     antiLogic: 1
     antiOrder: 0
-    maxIntervalLight: 3
+    maxIntervalLight: 2
   - type: 3
     AnimationClipTime: 1.6
     StartState: 0
     EndingState: 0
     antiLogic: 1
     antiOrder: 0
-    maxIntervalLight: 3
+    maxIntervalLight: 2
   - type: 3
     AnimationClipTime: 2
     StartState: 0
     EndingState: 0
     antiLogic: 1
     antiOrder: 0
-    maxIntervalLight: 3
+    maxIntervalLight: 2
   - type: 4
     AnimationClipTime: 2
     StartState: 0
@@ -982,17 +982,17 @@ PrefabInstance:
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
       propertyPath: areaRect.width
-      value: 6424
+      value: 6539
       objectReference: {fileID: 0}
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
       propertyPath: areaRect.height
-      value: 460.6
+      value: 1463.7
       objectReference: {fileID: 0}
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
       propertyPath: areaRect.y
-      value: 44
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
@@ -1007,7 +1007,7 @@ PrefabInstance:
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
       propertyPath: threshold
-      value: 20
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
@@ -1027,7 +1027,7 @@ PrefabInstance:
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
       propertyPath: areaRect.x
-      value: 113
+      value: -347
       objectReference: {fileID: 0}
     - target: {fileID: 114674043590456170, guid: dbe76c65e141a4108be49a35f16addda,
         type: 3}
