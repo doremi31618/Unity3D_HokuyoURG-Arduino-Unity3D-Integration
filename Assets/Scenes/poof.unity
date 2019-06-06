@@ -451,6 +451,7 @@ MonoBehaviour:
   skin: {fileID: 11400000, guid: 7f322e40a0d7f430287a28212401096d, type: 2}
   arduino: {fileID: 0}
   shiningTime: 0.5
+  EarlyLightNumber: 4
   frameRate: 6
   isLoop: 1
   isUseGlobalAntiLogic: 0
